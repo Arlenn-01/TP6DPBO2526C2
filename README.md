@@ -2,15 +2,15 @@
 
 ## Deskripsi
 
-FlappyBird adalah permainan sederhana berbasis Java Swing. Player mengendalikan burung agar melewati celah di antara pipa. Permainan berakhir ketika burung menyentuh pipa atau batas bawah area permainan.
+FlappyBird ini dibuat sebagai permainan sederhana menggunakan Java Swing. Pemain mengendalikan burung dengan menekan tombol `Space` agar dapat melewati celah pipa. Setiap pipa yang berhasil dilewati akan menambah satu poin. Permainan berakhir ketika burung menabrak pipa atau jatuh sampai batas bawah layar.
 
 ## Desain Program
 
-Program menggunakan pendekatan pemisahan tanggung jawab antara tampilan, logika permainan, dan model objek permainan.
+Program dibagi menjadi beberapa class supaya bagian tampilan, aturan permainan, dan data objek lebih mudah dipahami serta dikembangkan.
 
 ### Struktur Class
 
-| Class | Tanggung jawab |
+| Class | Penjelasan |
 | --- | --- |
 | `App` | Membuat JFrame, menampilkan menu awal, dan mengatur tombol mulai serta keluar. |
 | `Logic` | Mengatur state permainan, timer, pergerakan player dan pipa, gravity, collision, skor, Game Over, restart, dan input keyboard. |
@@ -20,33 +20,33 @@ Program menggunakan pendekatan pemisahan tanggung jawab antara tampilan, logika 
 
 ### Komponen Utama
 
-- `JFrame` digunakan sebagai jendela utama berukuran 360 x 640 pixel.
-- `JPanel` pada `View` digunakan sebagai area untuk menggambar permainan.
-- `Timer gameLoop` berjalan sekitar 60 kali per detik untuk memperbarui posisi dan memeriksa kondisi permainan.
+- `JFrame` menjadi jendela utama permainan dengan ukuran 360 x 640 pixel.
+- `JPanel` pada `View` menjadi tempat untuk menggambar burung, pipa, skor, dan pesan Game Over.
+- `Timer gameLoop` memperbarui permainan sekitar 60 kali setiap detik.
 - `Timer pipesCooldown` membuat pasangan pipa baru setiap 1500 milidetik.
-- `ArrayList<Pipe>` menyimpan seluruh pipa yang sedang aktif.
-- `Rectangle` digunakan untuk memeriksa persentuhan antara player dan pipa.
-- Asset permainan berada di `src/assets/`, yaitu gambar burung, pipa atas, pipa bawah, dan background.
+- `ArrayList<Pipe>` menyimpan pipa-pipa yang sedang muncul di layar.
+- `Rectangle` membantu memeriksa apakah burung bersentuhan dengan pipa.
+- Gambar permainan disimpan di `src/assets/`, yaitu gambar burung, pipa atas, pipa bawah, dan background.
 
 ## Alur Program
 
-### 1. Menjalankan Aplikasi
+### 1. Aplikasi Dibuka
 
 1. Method `main()` pada `App` membuat dan mengatur JFrame.
-2. Object `Logic` dan `View` dibuat. `View` menerima referensi `Logic` agar dapat membaca state permainan.
+2. Object `Logic` dan `View` dibuat. `View` menerima referensi `Logic` agar bisa membaca kondisi permainan.
 3. Menu awal ditampilkan dengan tombol `Mulai Permainan` dan `Keluar`.
 4. Timer belum berjalan ketika menu awal ditampilkan.
 
-### 2. Memulai Permainan
+### 2. Permainan Dimulai
 
 1. Ketika tombol `Mulai Permainan` ditekan, content pane JFrame diganti menjadi `View`.
 2. Panel permainan meminta fokus keyboard.
 3. Method `Logic.start()` menjalankan `gameLoop` dan `pipesCooldown`.
-4. Player mulai jatuh karena pengaruh gravity.
+4. Burung mulai jatuh karena pengaruh gravity dan permainan mulai berjalan.
 
 ### 3. Proses Game Loop
 
-Pada setiap frame, `actionPerformed()` dipanggil oleh `gameLoop`, kemudian menjalankan `move()`:
+Pada setiap frame, `gameLoop` memanggil `actionPerformed()`, lalu method tersebut menjalankan `move()`. Di dalam `move()` terjadi beberapa hal berikut:
 
 1. Velocity vertikal player ditambah nilai gravity.
 2. Posisi vertikal player diperbarui berdasarkan velocity tersebut.
@@ -56,9 +56,9 @@ Pada setiap frame, `actionPerformed()` dipanggil oleh `gameLoop`, kemudian menja
 6. Area player dan pipa dibandingkan menggunakan `Rectangle`.
 7. `View.repaint()` dipanggil agar posisi terbaru digambar ke layar.
 
-### 4. Pembuatan Pipa
+### 4. Pipa Baru Muncul
 
-`pipesCooldown` memanggil `placePipes()` setiap 1500 milidetik. Method tersebut:
+Setiap 1500 milidetik, `pipesCooldown` memanggil `placePipes()`. Method ini kemudian:
 
 1. Menentukan posisi vertikal acak untuk pipa atas.
 2. Membuat pipa bawah dengan jarak celah yang sama.
@@ -77,7 +77,7 @@ Game Over terjadi jika:
 - `Rectangle` player beririsan dengan `Rectangle` pipa; atau
 - bagian bawah player mencapai batas bawah JFrame.
 
-Ketika Game Over, kedua timer dihentikan dan pesan Game Over ditampilkan. Saat tombol `R` ditekan, method `restart()`:
+Saat Game Over, kedua timer dihentikan dan pesan Game Over ditampilkan. Jika pemain menekan tombol `R`, method `restart()` akan:
 
 1. Menghentikan timer.
 2. Menghapus semua pipa.
@@ -114,6 +114,12 @@ Asset gambar dibaca melalui classpath dari folder `src`, sehingga folder `src` p
 | `R` | Restart setelah Game Over |
 | `Mulai Permainan` | Memulai permainan dari menu |
 | `Keluar` | Menutup aplikasi |
+
+## Dokumentasi Video
+
+Video demonstrasi permainan tersedia di folder [`Dokumentasi`](Dokumentasi/):
+
+- [Video demonstrasi FlappyBird](Dokumentasi/2026-11-02%2023-42-37.mp4)
 
 ## File yang Tidak Diunggah
 
